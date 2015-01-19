@@ -20,7 +20,7 @@ whitespace の実行プログラム
 ## Usage
 
 	$ make
-	$ cat <whitespace program> | ./kwsc > <destination of color text file>
+	$ cat <whitespace program> | ./kwsc > <destination of coloring text file>
 	$ ./kws -f <whitespace program>
 
 ## Author
