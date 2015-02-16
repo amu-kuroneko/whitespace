@@ -347,18 +347,24 @@ static void ioProcess( Instruction *instruction ){
 	switch( instruction->c_io ){
 		case PUT_CHAR:
 			fputc( ( char ) ( pop() & 0xFF ) , stdout );
+			fflush( stdout );
 			break;
 			
 		case PUT_NUMBER:
 			fprintf( stdout , "%ld" , pop() );
+			fflush( stdout );
 			break;
 			
 		case GET_CHAR:
-			setHeapValue( ( int ) getStackTop() , fgetc( stdin ) );
+			if( ! feof( stdin ) ){
+				setHeapValue( ( int ) getStackTop() , fgetc( stdin ) );
+			}
 			break;
 			
 		case GET_NUMBER:
-			setHeapValue( ( int ) getStackTop() , atoi( fgets( buffer , BUFFER_SIZE - 1 , stdin ) ) );
+			if( ! feof( stdin ) ){
+				setHeapValue( ( int ) getStackTop() , atoi( fgets( buffer , BUFFER_SIZE - 1 , stdin ) ) );
+			}
 			break;
 			
 		default:
@@ -444,6 +450,7 @@ static bool callSubRoutine( Instruction *instruction ){
 static void error( char *message ){
 	fputs( message , stderr );
 	fputc( '\n' , stderr );
+	fflush( stdout );
 	exit( EXIT_FAILURE );
 }
 
