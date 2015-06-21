@@ -52,27 +52,27 @@ void disassemble( Instruction *instruction ){
 				fprintf( stdout , "%-15s: " , "stack" );
 				showStack( instruction );
 				break;
-				
+
 			case OPERATION:
 				fprintf( stdout , "%-15s: " , "operation" );
 				showOperation( instruction );
 				break;
-				
+
 			case HEAP:
 				fprintf( stdout , "%-15s: " , "heap" );
 				showHeap( instruction );
 				break;
-				
+
 			case FLOW_CONTROL:
 				fprintf( stdout , "%-15s: " , "flow control" );
 				showFlowControl( instruction );
 				break;
-				
+
 			case IO:
 				fprintf( stdout , "%-15s: " , "io" );
 				showIO( instruction );
 				break;
-				
+
 			default:
 				break;
 		}
@@ -87,26 +87,26 @@ static void showStack( Instruction *instruction ){
 		case PUSH_NUMBER:
 			fprintf( stdout , "%-20s: 0x%08lx( %ld )" , "push number" , instruction->p_value , instruction->p_value );
 			break;
-			
+
 		case TOP_COPY:
 			fprintf( stdout , "%-20s" , "top copy" );
 			break;
-			
+
 		case N_COPY:
 			fprintf( stdout , "%-20s: 0x%08lx( %ld )" , "n position copy" , instruction->p_value , instruction->p_value );
 			break;
-			
+
 		case PUSH_EXCHANGE:
 			fprintf( stdout , "%-20s" , "exchange" );
 			break;
-			
+
 		case TOP_DESTRUCTION:
 			fprintf( stdout , "%-20s" , "top destruction" );
 			break;
-			
+
 		case N_SLIDE:
 			fprintf( stdout , "%-20s: 0x%08lx( %ld ) " , "n slide and keep top" , instruction->p_value , instruction->p_value );
-			
+
 		default:
 			break;
 	}
@@ -119,23 +119,23 @@ static void showOperation( Instruction *instruction ){
 		case ADDTION:
 			fprintf( stdout , "%-20s" , "addtion" );
 			break;
-			
+
 		case SUBTRACTION:
 			fprintf( stdout , "%-20s" , "subtraction" );
 			break;
-			
+
 		case MULTIPLICATION:
 			fprintf( stdout , "%-20s" , "multiplication" );
 			break;
-			
+
 		case DIVISION:
 			fprintf( stdout , "%-20s" , "division" );
 			break;
-			
+
 		case MODULO:
 			fprintf( stdout , "%-20s" , "modulo" );
 			break;
-			
+
 		default :
 			break;
 	}
@@ -147,11 +147,11 @@ static void showHeap( Instruction *instruction ){
 		case TO_ADDRESS:
 			fprintf( stdout , "%-20s" , "to address" );
 			break;
-			
+
 		case TO_STACK:
 			fprintf( stdout , "%-20s" , "to stack" );
 			break;
-			
+
 		default:
 			break;
 	}
@@ -163,27 +163,27 @@ static void showFlowControl( Instruction *instruction ){
 		case LABEL_DEFINE:
 			fprintf( stdout , "%-20s: %s" , "label define" , instruction->p_label );
 			break;
-			
+
 		case CALL_ROUTINE:
 			fprintf( stdout , "%-20s: %s" , "call sub routine" , instruction->p_label );
 			break;
-			
+
 		case JUMP:
 			fprintf( stdout , "%-20s: %s" , "jump" , instruction->p_label );
 			break;
-			
+
 		case ZERO_JUMP:
 			fprintf( stdout , "%-20s: %s" , "if zero jump" , instruction->p_label );
 			break;
-			
+
 		case MINUS_JUMP:
 			fprintf( stdout , "%-20s: %s" , "if minus jump" , instruction->p_label );
 			break;
-			
+
 		case END_ROUTINE:
 			fprintf( stdout , "%-20s" , "end sub routine" );
 			break;
-			
+
 		case FINISH:
 			fprintf( stdout , "%-20s" , "finish" );
 			break;
@@ -196,19 +196,19 @@ static void showIO( Instruction *instruction ){
 		case PUT_CHAR:
 			fprintf( stdout , "%-20s" , "put charactor" );
 			break;
-			
+
 		case PUT_NUMBER:
 			fprintf( stdout , "%-20s" , "put number" );
 			break;
-			
+
 		case GET_CHAR:
 			fprintf( stdout , "%-20s" , "get charactor" );
 			break;
-			
+
 		case GET_NUMBER:
 			fprintf( stdout , "%-20s" , "get number" );
 			break;
-			
+
 		default:
 			break;
 	}

@@ -294,31 +294,31 @@ static char *setIMP( char *position , Instruction *instruction ){
 		case ' ':
 			instruction->imp = STACK;
 			break;
-			
+
 		case '\t':
 			switch( *position++ ){
 				case ' ':
 					instruction->imp = OPERATION;
 					break;
-					
+
 				case '\t':
 					instruction->imp = HEAP;
 					break;
-					
+
 				case '\n':
 					instruction->imp = IO;
 					break;
-					
+
 				default:
 					error( "end program" );
 					return NULL;
 			}
 			break;
-			
+
 		case '\n':
 			instruction->imp = FLOW_CONTROL;
 			break;
-			
+
 		default:
 			error( "end program" );
 			return NULL;
@@ -331,23 +331,23 @@ static char *setCommand( char *position , Instruction *instruction ){
 		case STACK:
 			position = setStackCommand( position , instruction );
 			break;
-			
+
 		case OPERATION:
 			position = setOperationCommand( position , instruction );
 			break;
-			
+
 		case HEAP:
 			position = setHeapCommand( position , instruction );
 			break;
-			
+
 		case FLOW_CONTROL:
 			position = setControlCommand( position , instruction );
 			break;
-			
+
 		case IO:
 			position = setIOCommand( position , instruction );
 			break;
-			
+
 		default:
 			error( "do not set IMP" );
 			return NULL;
@@ -360,42 +360,42 @@ static char *setStackCommand( char *position , Instruction *instruction ){
 		case ' ':
 			instruction->c_stack = PUSH_NUMBER;
 			break;
-			
+
 		case '\t':
 			switch( *position++ ){
 				case ' ':
 					instruction->c_stack = N_COPY;
 					break;
-					
+
 				case '\n':
 					instruction->c_stack = N_SLIDE;
 					break;
-					
+
 				default:
 					error( "illegal command." );
 					return NULL;
 			}
-			
+
 		case '\n':
 			switch( *position++ ){
 				case ' ':
 					instruction->c_stack = TOP_COPY;
 					break;
-					
+
 				case '\t':
 					instruction->c_stack = PUSH_EXCHANGE;
 					break;
-					
+
 				case '\n':
 					instruction->c_stack = TOP_DESTRUCTION;
 					break;
-					
+
 				default:
 					error( "illegal command." );
 					return NULL;
 			}
 			break;
-			
+
 		default:
 			error( "illegal command" );
 			return NULL;
@@ -410,37 +410,37 @@ static char *setOperationCommand( char *position , Instruction *instruction ){
 				case ' ':
 					instruction->c_operation = ADDTION;
 					break;
-					
+
 				case '\t':
 					instruction->c_operation = SUBTRACTION;
 					break;
-					
+
 				case '\n':
 					instruction->c_operation = MULTIPLICATION;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		case '\t':
 			switch( *position++ ){
 				case ' ':
 					instruction->c_operation = DIVISION;
 					break;
-					
+
 				case '\t':
 					instruction->c_operation = MODULO;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		default:
 			error( "illegal command" );
 			return NULL;
@@ -453,11 +453,11 @@ static char *setHeapCommand( char *position , Instruction *instruction ){
 		case ' ':
 			instruction->c_heap = TO_ADDRESS;
 			break;
-			
+
 		case '\t':
 			instruction->c_heap = TO_STACK;
 			break;
-			
+
 		default:
 			error( "illegal command" );
 			return NULL;
@@ -472,41 +472,41 @@ static char *setControlCommand( char *position , Instruction *instruction ){
 				case ' ':
 					instruction->c_control = LABEL_DEFINE;
 					break;
-					
+
 				case '\t':
 					instruction->c_control = CALL_ROUTINE;
 					break;
-					
+
 				case '\n':
 					instruction->c_control = JUMP;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		case '\t':
 			switch( *position++ ){
 				case ' ':
 					instruction->c_control = ZERO_JUMP;
 					break;
-					
+
 				case '\t':
 					instruction->c_control = MINUS_JUMP;
 					break;
-					
+
 				case '\n':
 					instruction->c_control = END_ROUTINE;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		case '\n':
 			if( *position++ == '\n' ){
 				instruction->c_control = FINISH;
@@ -516,7 +516,7 @@ static char *setControlCommand( char *position , Instruction *instruction ){
 				return NULL;
 			}
 			break;
-			
+
 		default:
 			error( "illegal command" );
 			return NULL;
@@ -531,37 +531,37 @@ static char *setIOCommand( char *position , Instruction *instruction ){
 				case ' ':
 					instruction->c_io = PUT_CHAR;
 					break;
-					
+
 				case '\t':
 					instruction->c_io = PUT_NUMBER;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		case '\t':
 			switch( *position++ ){
 				case ' ':
 					instruction->c_io = GET_CHAR;
 					break;
-					
+
 				case '\t':
 					instruction->c_io = GET_NUMBER;
 					break;
-					
+
 				default:
 					error( "illegal command" );
 					return NULL;
 			}
 			break;
-			
+
 		default:
 			error( "illegal command" );
 			return NULL;
-			
+
 	}
 	return position;
 }
@@ -597,20 +597,20 @@ static char *setNumber( char *position , Instruction *instruction ){
 				number <<= 1;
 				number++;
 				break;
-				
+
 			case ' ':
 				number <<= 1;
 				break;
-				
+
 			case '\n':
 				goto END_SET_NUMBER;
-				
+
 			default:
 				error( "illegal number parameter." );
 				return NULL;
 		}
 	}
-	
+
 END_SET_NUMBER:
 	number &= 0x7FFFFFFFFFFFFFFF;
 	if( minus ){
@@ -633,14 +633,14 @@ static char *setLabel( char *position , Instruction *instruction ){
 				buffer[index] <<= 1;
 				buffer[index]++;
 				break;
-				
+
 			case ' ':
 				buffer[index] <<= 1;
 				break;
-				
+
 			case '\n':
 				goto END_SET_LABEL;
-				
+
 			default:
 				error( "illegal label parameter" );
 				return NULL;
@@ -649,7 +649,7 @@ static char *setLabel( char *position , Instruction *instruction ){
 	}
 	error( "illegal label parameter: overflow." );
 	return NULL;
-	
+
 END_SET_LABEL:
 	size = sizeof( char ) * ( ( count >> 3 ) + 2 );
 	if( ( instruction->p_label = ( char * ) malloc( size ) ) == NULL ){
@@ -677,24 +677,24 @@ static void setRelation( Instruction *instruction ){
 				case LABEL_DEFINE:
 					stack[count++] = instruction;
 					break;
-					
+
 				case END_ROUTINE:
 					stack[--count]->jump = instruction;
 					break;
 
 				case CALL_ROUTINE:
 					// FALL THROUGH
-					
+
 				case JUMP:
 					// FALL THROUGH
-					
+
 				case ZERO_JUMP:
 					// FALL THROUGH
-					
+
 				case MINUS_JUMP:
 					instruction->jump = getInstructionAtLabel( instruction->p_label );
 					break;
-										
+
 				default:
 					break;
 			}

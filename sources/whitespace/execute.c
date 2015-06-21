@@ -185,22 +185,22 @@ static bool baseProcess( Instruction *instruction ){
 		case STACK:
 			stackProcess( instruction );
 			break;
-			
+
 		case OPERATION:
 			operationProcess( instruction );
 			break;
-			
+
 		case HEAP:
 			heapProcess( instruction );
 			break;
-			
+
 		case FLOW_CONTROL:
 			return flowControlProcess( instruction );
-			
+
 		case IO:
 			ioProcess( instruction );
 			break;
-			
+
 		default:
 			error( "execute: illegal imp" );
 			break;
@@ -214,32 +214,32 @@ static void stackProcess( Instruction *instruction ){
 		case PUSH_NUMBER:
 			push( instruction->p_value );
 			break;
-			
+
 		case TOP_COPY:
 			push( getStackTop() );
 			break;
-			
+
 		case N_COPY:
 			push( getStackValue( ( int ) instruction->p_value ) );
 			break;
-			
+
 		case PUSH_EXCHANGE:
 			firstTemporary = pop();
 			secondTemporary = pop();
 			push( firstTemporary );
 			push( secondTemporary );
 			break;
-			
+
 		case TOP_DESTRUCTION:
 			pop();
 			break;
-			
+
 		case N_SLIDE:
 			firstTemporary = pop();
 			stackPointer -= ( int ) instruction->p_value;
 			push( firstTemporary );
 			break;
-			
+
 		default:
 			error( "execute: illegal stack command" );
 			break;
@@ -255,27 +255,27 @@ static void operationProcess( Instruction *instruction ){
 		case ADDTION:
 			push( left + right );
 			break;
-			
+
 		case SUBTRACTION:
 			push( left - right );
 			break;
-			
+
 		case MULTIPLICATION:
 			push( left * right );
 			break;
-			
+
 		case DIVISION:
 			push( left / right );
 			break;
-			
+
 		case MODULO:
 			push( left % right );
 			break;
-			
+
 		default:
 			error( "execute: illegal operation command" );
 			break;
-			
+
 	}
 	current = instruction->next;
 	return;
@@ -289,12 +289,12 @@ static void heapProcess( Instruction *instruction ){
 			address = pop();
 			setHeapValue( ( int ) address , value );
 			break;
-			
+
 		case TO_STACK:
 			address = pop();
 			push( getHeapValue( ( int ) address ) );
 			break;
-			
+
 		default:
 			error( "execute: illegal heap command" );
 			break;
@@ -308,33 +308,33 @@ static bool flowControlProcess( Instruction *instruction ){
 		case LABEL_DEFINE:
 			current = instruction->next;
 			break;
-			
+
 		case CALL_ROUTINE:
 			if( callSubRoutine( instruction->jump ) ){
 				return true;
 			}
 			current = instruction->next;
 			break;
-			
+
 		case JUMP:
 			current = instruction->jump;
 			break;
-			
+
 		case ZERO_JUMP:
 			current = pop() == 0 ? instruction->jump : instruction->next;
 			break;
-			
+
 		case MINUS_JUMP:
 			current = pop() < 0 ? instruction->jump : instruction->next;
 			break;
-			
+
 		case END_ROUTINE:
 			current = instruction->next;
 			break;
-			
+
 		case FINISH:
 			return true;
-			
+
 		default:
 			current = instruction->next;
 			break;
@@ -349,24 +349,24 @@ static void ioProcess( Instruction *instruction ){
 			fputc( ( char ) ( pop() & 0xFF ) , stdout );
 			fflush( stdout );
 			break;
-			
+
 		case PUT_NUMBER:
 			fprintf( stdout , "%ld" , pop() );
 			fflush( stdout );
 			break;
-			
+
 		case GET_CHAR:
 			if( ! feof( stdin ) ){
 				setHeapValue( ( int ) getStackTop() , fgetc( stdin ) );
 			}
 			break;
-			
+
 		case GET_NUMBER:
 			if( ! feof( stdin ) ){
 				setHeapValue( ( int ) getStackTop() , atoi( fgets( buffer , BUFFER_SIZE - 1 , stdin ) ) );
 			}
 			break;
-			
+
 		default:
 			error( "execute: illegal io command" );
 			break;
